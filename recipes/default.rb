@@ -99,8 +99,16 @@ web_app 'drupal' do
     template 'site.conf.erb'
 end
 
-template 'haproxy' do
+template '/etc/haproxy/haproxy.cfg' do
     source "haproxy.cfg.erb"
+    # path "/etc/haproxy/haproxy.cfg"
+    action :create
+end
+
+template '/etc/default/haproxy' do
+    source "haproxy.cfg.erb"
+    source "haproxy.erb"
+    # path "/etc/haproxy/haproxy.cfg"
     action :create
 end
 
