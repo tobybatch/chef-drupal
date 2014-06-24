@@ -5,3 +5,4 @@ default[:drupal][:adminpass]   = "ilikerandompasswords"
 default[:drupal][:workingcopy] = true
 default[:drupal][:user]        = "vagrant"
 default[:drupal][:group]       = "vagrant"
+default[:drupal][:apiserver]   = "zz.api.carltonsoftware.co.uk"

@@ -1,0 +1,40 @@
+global
+        log /dev/log    local0 debug
+        log /dev/log    local1 debug
+        chroot /var/lib/haproxy
+        user haproxy
+        group haproxy
+        daemon
+
+defaults
+        log     global
+        mode    http
+        option  httplog
+        option  dontlognull
+        contimeout 5000
+        clitimeout 50000
+        srvtimeout 50000
+        errorfile 400 /etc/haproxy/errors/400.http
+        errorfile 403 /etc/haproxy/errors/403.http
+        errorfile 408 /etc/haproxy/errors/408.http
+        errorfile 500 /etc/haproxy/errors/500.http
+        errorfile 502 /etc/haproxy/errors/502.http
+        errorfile 503 /etc/haproxy/errors/503.http
+        errorfile 504 /etc/haproxy/errors/504.http
+
+
+frontend http-in
+    bind 127.0.0.1:9001
+    reqdel Host
+    reqadd Host:\ <%= node['drupal']['apiserver'] %>
+    option forwardfor
+    option httplog
+    default_backend backend_servers
+
+backend backend_servers
+    server sv1 <%= node['drupal']['apiserver'] %>:80 maxconn 32
+
+listen admin
+    bind 127.0.0.1:8080
+    stats enable
+

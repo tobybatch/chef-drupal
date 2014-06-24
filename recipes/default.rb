@@ -57,6 +57,10 @@ package "ruby-compass" do
       action :install
 end
 
+package "haproxy" do
+      action :install
+end
+
 # run ntdc
 if workingcopy
     bash "working_drupal" do
@@ -93,6 +97,11 @@ end
 
 web_app 'drupal' do
     template 'site.conf.erb'
+end
+
+template 'haproxy' do
+    source "haproxy.cfg.erb"
+    action :create
 end
 
 apache_site "default" do
