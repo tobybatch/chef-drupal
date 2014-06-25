@@ -61,6 +61,10 @@ package "haproxy" do
       action :install
 end
 
+package "php5-xdebug" do
+      action :install
+end
+
 # run ntdc
 if workingcopy
     bash "working_drupal" do
@@ -101,14 +105,16 @@ end
 
 template '/etc/haproxy/haproxy.cfg' do
     source "haproxy.cfg.erb"
-    # path "/etc/haproxy/haproxy.cfg"
     action :create
 end
 
 template '/etc/default/haproxy' do
-    source "haproxy.cfg.erb"
     source "haproxy.erb"
-    # path "/etc/haproxy/haproxy.cfg"
+    action :create
+end
+
+template '/etc/php5/mods-available/xdebug.ini' do
+    source "xdebug.ini.erb"
     action :create
 end
 
