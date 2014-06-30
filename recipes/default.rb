@@ -7,14 +7,16 @@ directory "/var/www/html/drupal" do
 end
 
 # Set up keys
-execute "cp /tmp/keys/id_rsa $HOME/.ssh/id_rsa" do
-    not_if { File.exist?("$HOME/.ssh/id_rsa") }
-end
-execute "cp /tmp/keys/id_rsa.pub $HOME/.ssh/id_rsa.pub" do
-    not_if { File.exist?("$HOME/.ssh/id_rsa.pub") }
-end
-execute "cp /tmp/keys/known_hosts $HOME/.ssh/known_hosts" do
-    not_if { File.exist?("$HOME/.ssh/known_hosts") }
+if File.exist?("/tmp/keys/id_rsa") do
+    execute "cp /tmp/keys/id_rsa $HOME/.ssh/id_rsa" do
+        not_if { File.exist?("$HOME/.ssh/id_rsa") }
+    end
+    execute "cp /tmp/keys/id_rsa.pub $HOME/.ssh/id_rsa.pub" do
+        not_if { File.exist?("$HOME/.ssh/id_rsa.pub") }
+    end
+    execute "cp /tmp/keys/known_hosts $HOME/.ssh/known_hosts" do
+        not_if { File.exist?("$HOME/.ssh/known_hosts") }
+    end
 end
 
 dburl = node['drupal']['dburl']
